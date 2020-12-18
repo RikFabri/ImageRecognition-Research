@@ -1,3 +1,8 @@
+# Disclaimer, this code is currently just to test if everything works on my end. 
+# This is blatantly copied from the tensorflow documentation.
+# Refer to: https://www.tensorflow.org/tutorials/images/classification
+# for more information
+
 import tensorflow as tf
 
 from tensorflow.keras import datasets, layers, models
