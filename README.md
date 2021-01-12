@@ -1,6 +1,6 @@
 # Prologue
 Normally, it's difficult to plan out research. It's done when the research question has been answered, or the hypothesis been disproven.
-I'm not quite there yet. So I'll discuss the details of what I did experiment with in more detail.
+I'm not quite there yet. So I'll discuss what I already did experiment with in more detail.
 
 
 # Research question
@@ -66,9 +66,12 @@ Let me explain: We gave all connections to the top node a weight of one and all 
 
 ### Learning
 
-> Okay, so I understand that this neural network can differentiate vertical from horizontal. But you just defined some numbers and did a bit of math. How do computer's even come into play here? This just seemd like glorified math!
+> Okay, so I understand that this neural network can differentiate vertical from horizontal. But you just defined some numbers and did a bit of math. How do computer's even come into play here? This just seems like glorified math!
 
 Well, simple neural networks are just that! Glorified math. 
 You're right that I wasn't playing completely fair here though. I skipped the learning part in machine learning. 
 
-See, when you just have a bunch of fully connected layers, the behaviour of your network is completely defined by all those weights. That's where learning comes in. You have your model do what it's supposed to do, and based on how well it does it, you alter the weights, thus slowly teaching the network. There are many ways of doing this, but in my project, it was all handled automatically by tensorflow. So I won't go there in this document.
+See, when you just have a bunch of fully connected layers, the behaviour of your network is completely defined by all those weights. That's where learning comes in. You have your model do what it's supposed to do, and based on how well it does it, you alter the weights, thus slowly teaching the network.(Kind of like mathematical logic)
+There are many ways of doing this, but in my project, it was all handled automatically by tensorflow. So I won't go there in this document.
+
+If you want to know more, I suggest taking a look at [backpropagation](https://en.wikipedia.org/wiki/Backpropagation) and [evolutional networks](https://en.wikipedia.org/wiki/Neuroevolution) the [tensorflow youtube channel](https://www.youtube.com/channel/UC0rqucBdTuFTjJiefW5t-IQ) also has loads of information.
