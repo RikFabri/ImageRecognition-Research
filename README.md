@@ -64,7 +64,7 @@ Well, horizontal and vertical are only two options. I thought I'd simplify the n
 
 Let me explain: We gave all connections to the top node a weight of one and all connections to the bottom node minus one. This means that if the top node has a bigger value than the bottom one, the result will be positive. The bottom node however, negated all the input. So if the absolute value of the bottom nodes is bigger (thus, meaning vertical) the output node will be negative instead. And just like that, we have a very easy to work with output.
 
-### Learning
+#### Learning
 
 > Okay, so I understand that this neural network can differentiate vertical from horizontal. But you just defined some numbers and did a bit of math. How do computer's even come into play here? This just seems like glorified math!
 
@@ -75,3 +75,11 @@ See, when you just have a bunch of fully connected layers, the behaviour of your
 There are many ways of doing this, but in my project, it was all handled automatically by tensorflow. So I won't go there in this document.
 
 If you want to know more, I suggest taking a look at [backpropagation](https://en.wikipedia.org/wiki/Backpropagation) and [evolutional networks](https://en.wikipedia.org/wiki/Neuroevolution) the [tensorflow youtube channel](https://www.youtube.com/channel/UC0rqucBdTuFTjJiefW5t-IQ) also has loads of information.
+
+## Convolutional neural networks
+
+Since I wanted to recognize gestures, which is just a form of image classification, convolutional networks were the best pick.
+If you want to understand those, these four videos *[video 1](https://youtu.be/fNxaJsNG3-s) [video 2](https://www.youtube.com/watch?v=bemDFpNooA8) [video 3](https://www.youtube.com/watch?v=x_VrgWTKkiM&t=212s) [video 4](https://www.youtube.com/watch?v=u2TjZzNuly8)* are invaluable.
+
+
+
