@@ -54,3 +54,12 @@ D * 0
 ```
 
 This does indeed mean that, the top node would be 1 if there's a horizontal line defined by A and B. Not coincidentally, a horizontal line on C and D would result in the second node being one
+
+We can use similar logic to have the bottom two nodes look for vertical lines. We'd just need to assign the 0.5 to the right connections per node.
+
+> Alright, I get it. But we have our answer right? the top two nodes mean horizontal, the bottom two are vertical.
+> Then why are there still so many nodes left?
+
+Well, horizontal and vertical are only two options. I thought I'd simplify the network's output to show you how it can do many different kinds of logical operations. The remaining nodes serve nothing but reducing the output into one value, which will be negative for vertical lines and positive for horizontal ones.
+
+Let me explain: We gave all connections to the top node a weight of one and all connections to the bottom node minus one. This means that if the top node has a bigger value than the bottom one, the result will be positive. The bottom node however, negated all the input. So if the absolute value of the bottom nodes is bigger (thus, meaning vertical) the output node will be negative instead. And just like that, we have a very easy to work with output.
