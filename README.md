@@ -39,7 +39,11 @@ Now, Imagine that in the previous diagram, each circle on the first layer repres
 
 ![Neural network sketch](/git_images/SimpleNet.png)
 
-In the above drawing, The solid lines have a weight with value 0.5, the dotted lines have a value of 0. So that means that, the number in our first node will be:
+In the above drawing, we'll define the weights so that the top two *(solid circles)* nodes look for horizontal lines. In essence, this means we want them to be one if a line is horizontal, or less if the line is vertical.
+To achieve this, we'll give the solid lines a weight of 0.5 and the dotted lines a weight of 0. 
+
+We'll do the resulting math of the top node, while keeping in mind that every line multiplies the data with it's weight and the nodes take the sum of all incoming lines.
+So that means that, the number in our first node will be:
 ```
 A * 0.5 + 
 B * 0.5 +
@@ -49,4 +53,4 @@ D * 0
 (A + B) / 2
 ```
 
-This means that, the top node would be 1 if there's a horizontal line defined by A and B. Not coincidentally, a horizontal line on C and D would result in the second node being one
+This does indeed mean that, the top node would be 1 if there's a horizontal line defined by A and B. Not coincidentally, a horizontal line on C and D would result in the second node being one
