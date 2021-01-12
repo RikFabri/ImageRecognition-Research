@@ -63,3 +63,12 @@ We can use similar logic to have the bottom two nodes look for vertical lines. W
 Well, horizontal and vertical are only two options. I thought I'd simplify the network's output to show you how it can do many different kinds of logical operations. The remaining nodes serve nothing but reducing the output into one value, which will be negative for vertical lines and positive for horizontal ones.
 
 Let me explain: We gave all connections to the top node a weight of one and all connections to the bottom node minus one. This means that if the top node has a bigger value than the bottom one, the result will be positive. The bottom node however, negated all the input. So if the absolute value of the bottom nodes is bigger (thus, meaning vertical) the output node will be negative instead. And just like that, we have a very easy to work with output.
+
+### Learning
+
+> Okay, so I understand that this neural network can differentiate vertical from horizontal. But you just defined some numbers and did a bit of math. How do computer's even come into play here? This just seemd like glorified math!
+
+Well, simple neural networks are just that! Glorified math. 
+You're right that I wasn't playing completely fair here though. I skipped the learning part in machine learning. 
+
+See, when you just have a bunch of fully connected layers, the behaviour of your network is completely defined by all those weights. That's where learning comes in. You have your model do what it's supposed to do, and based on how well it does it, you alter the weights, thus slowly teaching the network. There are many ways of doing this, but in my project, it was all handled automatically by tensorflow. So I won't go there in this document.
