@@ -6,7 +6,7 @@ I'm not quite there yet. So I'll discuss the details of what I did experiment wi
 # Research question
 How can we apply machine learning to unity, to achieve image recognition in games?
 ### Goal
-Create a simple unity game where the controls are based on the gestures you make in front of the webcam
+Create a simple unity game where the controls are based on the gestures you make in front of your webcam
 
 # Research
 The research question can be broken down in two main parts
@@ -26,7 +26,7 @@ When people hear the terms AI/Machine learning/Neural networks, they often think
 
 But what does it represent and how does it simulate intelligence?
 
-### The traditional neural network
+#### The traditional neural network
 To understand how this works, we'll construct a complete theoretical neural network from scratch. *(cool right?)* 
 
 Our theoretical neural network, which we'll call Ben will obviously need a function. So let's train him to do something useful, like... recognizing lines!
