@@ -31,3 +31,22 @@ To understand how this works, we'll construct a complete theoretical neural netw
 
 Our theoretical neural network, which we'll call Ben will obviously need a function. So let's train him to do something useful, like... recognizing lines!
 
+We want to be able to tell whether or not a line is horizontal or vertical, based on these four squares as input
+
+![Four 4x4 grids](/git_images/All_possibilities.png)
+
+Now, Imagine that in the previous diagram, each circle on the first layer represents one of the squares. If a square is coloured, the circle has value one, if it's empty, it's zero. Every sphere is connected with all the spheres in the next layer *(called a fully connected layer)*. The lines between them have weights. The data from the input node flows through this line to the connected nodes, as it flows through the connection, it's multiplied by this weight. The node where the data ends up, takes the sum and often uses an activation function on that sum. We usually use the sigmoid function for this, which in essence just clamps the values between -1 and 1.
+
+![Neural network sketch](/git_images/SimpleNet.png)
+
+In the above drawing, The solid lines have a weight with value 0.5, the dotted lines have a value of 0. So that means that, the number in our first node will be:
+```
+A * 0.5 + 
+B * 0.5 +
+C * 0 +
+D * 0
+->
+(A + B) / 2
+```
+
+This means that, the top node would be 1 if there's a horizontal line defined by A and B. Not coincidentally, a horizontal line on C and D would result in the second node being one
