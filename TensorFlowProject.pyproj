@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>c879481d-9ace-4eee-b45b-f39cc7fd9a7f</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>TensorFlowProject.py</StartupFile>
+    <StartupFile>TrainNeuralNet.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -21,7 +21,10 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="TensorFlowProject.py" />
+    <Compile Include="TestSavedNet.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TrainNeuralNet.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
