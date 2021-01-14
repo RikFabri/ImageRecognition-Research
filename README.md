@@ -81,5 +81,54 @@ If you want to know more, I suggest taking a look at [backpropagation](https://e
 Since I wanted to recognize gestures, which is just a form of image classification, convolutional networks were the best pick.
 If you want to understand those, these four videos *[video 1](https://youtu.be/fNxaJsNG3-s) [video 2](https://www.youtube.com/watch?v=bemDFpNooA8) [video 3](https://www.youtube.com/watch?v=x_VrgWTKkiM&t=212s) [video 4](https://www.youtube.com/watch?v=u2TjZzNuly8)* are invaluable.
 
+If you want to experiment with code samples without having to do any setup, this [online interactive environment](https://colab.research.google.com/github/tensorflow/docs/blob/master/site/en/tutorials/images/cnn.ipynb) is the way to go.
 
-[Online interactive environment](https://colab.research.google.com/github/tensorflow/docs/blob/master/site/en/tutorials/images/cnn.ipynb)
+### What's the difference?
+
+A convolutional network is very similar to the basic one explained above. The main difference is that you use convolutional layers, we'll come back to what those are later.
+
+If you think about it, the previous kind of network could already do simple image classification. The examples with lines could in principle be treated as four pixels, right?
+However, doing image classification that way imposes some big restrictions. If the subject in your image is slightly off-center for example, your network will have a **very** difficult time. That's only one of the issues you'd face though, imagine recognizing types of flowers or different organic shapes. They all have similarities, but they're definitely not going to nicely fit the same layout input-wise. 
+
+> Hmm, that last sentence doesn't seem to be all negative. Sure, the input being inconsistent makes it harder. But similarities are a good thing right? Can't we go off of that?
+
+Exactly! A convolutional neural network doesn't learn to match certain pixels to certain outputs, it extracts features and tries to match those!
+
+> Cool, although, extracting features doesn't seem something our fully connected layers can do?
+
+Fully connected layers are indeed not suited for this. Although we can use them to match the features to the output.
+
+#### Convolutional layers
+
+To extract features from our image, we'll use convolutional layers. Those layers iterate over the image and apply a convolution kernel. Those are simple matrices, usually 3x3. Applying them simply means matrix multiplication.
+
+![Convolutional kernel being applied](https://mlnotebook.github.io/img/CNN/convSobel.gif)
+
+> Okay, so we transform the data somehow, but how does all this work? 
+> Where do the values for the kernels come from?
+> How would this even extract any features?
+> This affects the image resolution, right?
+
+- In the gif above, the resolution is indeed affected. Although, this is easily countered by adding padding. There are other ways of dealing with it. But I won't go into these.
+- The values of those kernels can be learned, just like the weights in previous example.
+- Let me show you the magic
+
+![Before and after convolution](https://timdettmers.com/wp-content/uploads/2015/03/convolution.png)
+![Different convolution kernels in a gif](https://geekgirljoy.files.wordpress.com/2020/04/annkernelconvolutionexamples.gif)
+
+Now, this process happens for every node in a convolutional layer. Remember the data *flowing* through the connections? That's a lot of data now...
+
+#### Pooling
+
+Since we want our models to actually be trainable on normal hardware, rather than supercomputers. We want to reduce our memory usage when possible. That's why, after using a convolutional layer, we'll usually put a layer that does some kind of pooling.
+
+Pooling simply reduces the data, retaining the most prevalent parts. Kind of like how you can compress an image and still make out what's on there. Here's an example.
+![max pooling example](https://media.geeksforgeeks.org/wp-content/uploads/20190721025744/Screenshot-2019-07-21-at-2.57.13-AM.png)
+
+Here we simply take the maximum of a square, hence "max pooling" we can also do "average pooling" for example.
+
+### Put together
+
+So if we combine all of the above, we'll have an image as output. Our trained kernels will extract certain features from the image and the (max)pooling will scale down the features into digestible input for the fully connected layers at the end. Those will then match certain features to certain classes. And there we have it, image recognition!
+
+![Complete convolutional network](https://pubs.rsc.org/image/article/2021/lc/d0lc01158d/d0lc01158d-f2_hi-res.gif)
