@@ -132,3 +132,117 @@ Here we simply take the maximum of a square, hence "max pooling" we can also do 
 So if we combine all of the above, we'll have an image as output. Our trained kernels will extract certain features from the image and the (max)pooling will scale down the features into digestible input for the fully connected layers at the end. Those will then match certain features to certain classes. And there we have it, image recognition!
 
 ![Complete convolutional network](https://pubs.rsc.org/image/article/2021/lc/d0lc01158d/d0lc01158d-f2_hi-res.gif)
+
+
+# Current state
+
+## Creating the network
+
+To start, I created a basic convolutional neural network using python.
+
+```python
+model = models.Sequential([
+  layers.Conv2D(16, 3, padding='same', activation='relu', input_shape=(img_height, img_width, 1)),
+  layers.MaxPooling2D(),
+  layers.Conv2D(32, 3, padding='same', activation='relu'),
+  layers.MaxPooling2D(),
+  layers.Conv2D(64, 3, padding='same', activation='relu'),
+  layers.MaxPooling2D(),
+  layers.Flatten(),
+  layers.Dense(128, activation='relu'),
+  layers.Dense(num_classes)
+])
+```
+
+I trained it with the Creative Senz3D gesture dataset, which can be found [here](https://lttm.dei.unipd.it/downloads/gesture/).
+Note that you have to cite these papers if you use the dataset for your own research.
+> [1] A. Memo, L. Minto, P. Zanuttigh,  "Exploiting Silhouette Descriptors and Synthetic Data for Hand Gesture Recognition", STAG: Smart Tools & Apps for Graphics, 2015
+
+> [2] A. Memo, P. Zanuttigh,  "Head-mounted gesture controlled interface for human-computer interaction", Multimedia Tools and Applications, 2017
+
+You can easily save the trained network by puttin this at the end of your file.
+
+```python
+model.save("saved_model")
+```
+
+###### Issues
+
+>Due to time constraints, I have not had very succesful results with my current setup. My model suffered severely from overfitting and I made mistakes when preprocessing my data using keras. I also used way too little nodes in my convolutional layers. I was still looking into hardware acceleration and looked forward to explaining how to use it. However, I got stuck and have yet to figure it out. If you use this model, I recommend using 64x64 images or smaller. However, if you have GPU-accelerated learning, increase the amount of nodes.
+
+##### Using this project
+
+If you want to play around with this repository, you can simply clone it, download the same dataset and make sure the paths at the top of the file match. The project is set up for visual studio, but if you simply want to open the files in idle, that will work too. Although, you shouldn't forget to pip install the used libraries if you do.
+I got rid of the subjects and made two folders containing all eleven gestures. One for training, one for validating. I couldn't include the unity project due to github's size-constraints. However, everything is explained further down this article.
+
+### ONNX
+
+The model is now saved as \*.pb. Since we want to use the model in unity, we need a more widely supported format. 
+Barracuda is built on the *open neural network exchange* format (ONNX). So we'll convert to that.
+
+In your python virtual environment, run ``` python -m tf2onnx.convert --opset 12 --saved-model "path-to-saved_model" --output "output-path\model.onnx"``` 
+
+At the time of writing this, there are a lot of issues with that command. If you get 
+> The current Numpy installation fails to pass a sanity check due to a bug in the windows runtime.
+
+You should downgrade numpy, I personally ended up using 1.19.3
+
+```pip install --upgrade numpy==1.19.3```
+
+If that all works, you should now have a folder with a \*.onnx file
+
+### Barracuda
+#### Adding barracuda
+
+Barracuda has install instructions [right here](https://docs.unity3d.com/Packages/com.unity.barracuda@1.0/manual/Installing.html)
+Personally, I directly pasted ```"com.unity.barracuda": "https://github.com/Unity-Technologies/barracuda-release.git"``` in the ```Packages/manifest.json```. That way, you don't have to deal with the unity package manager.
+Keep in mind that barracuda is experimental, so you'll still have to enable experimental packages in your project settings.
+
+#### Using the network
+
+You can now just drag and drop the \*.onnx file into unity.
+When you want to use it in a script, you can simply use a public or [SerializeField] data member of type NNModel. Since it's nothing complicated, I'll refer you to the [official documentation](https://docs.unity3d.com/Packages/com.unity.barracuda@1.2/manual/GettingStarted.html)
+
+### Webcam input
+
+To be able to use my webcam as input for the neural network, I used the built-in ```WebCamTexture```. There are better solutions out there, but most webcam-handling libraries are pretty expensive.
+
+You can access the webcam like this
+```C#
+var webCamTexture = new WebCamTexture();
+
+// Note that you'll probably want your images to be a certain size, to fit the neural network.
+webCamTexture.requestedWidth = 640; 
+webCamTexture.requestedHeight = 480;
+
+// You can also display the live-feed on a plane like this
+var renderer = GetComponent<Renderer>(); // Assuming you apply this script on a plane directly
+renderer.material.mainTexture = webCamTexture;
+        
+webCamTexture.Play();
+```
+
+To convert the input to a Texture2D, that can then be used as input for the network, we'll do the following
+```C#
+IEnumerator TakePhoto() 
+{
+    yield return new WaitForEndOfFrame();
+
+    texture = new Texture2D(webCamTexture.width, webCamTexture.height);
+    texture.SetPixels(webCamTexture.GetPixels());
+    texture.Apply();
+    
+    // You can optionally save the texture2D. This can be rather helpful when testing
+    byte[] bytes = texture.EncodeToPNG();
+    File.WriteAllBytes("photo.png", bytes);
+}
+```
+The previous function can then be called as a coroutine.
+```C#
+StartCoroutine(TakePhoto());
+```
+
+You can, as of now, pass Texture2D to the input tensor *(Tensors are pretty much any data used in neural networks)* and run the neural network with it.
+I won't give you the code since this is prone to change. [This article](https://docs.unity3d.com/Packages/com.unity.barracuda@0.3/manual/index.html) has a simple example on how to do it, but it's already quite old so you should probably check the [previously mentioned barracuda documentation](https://docs.unity3d.com/Packages/com.unity.barracuda@1.0/manual/index.html). To see the recommended way of interacting with the model.
+
+Once this is done, you have a unity project running neural networks on your device's cuda cores, congratulations!
