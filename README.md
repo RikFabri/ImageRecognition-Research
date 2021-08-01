@@ -1,7 +1,5 @@
 # Prologue
-Normally, it's difficult to plan out research. It's done when the research question has been answered, or the hypothesis been disproven.
-I'm not quite there yet. So I'll discuss what I already did experiment with in more detail.
-
+I didn't reach the end goal yet, and am unsure if I'll continue. But I'll leave the project up in case someone finds the explanations on ML useful.
 
 # Research question
 How can we apply machine learning to unity, to achieve image recognition in games?
